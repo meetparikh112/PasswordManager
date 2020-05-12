@@ -9,7 +9,7 @@ import {
 import Clipboard from '@react-native-community/clipboard';
 import {useFocusEffect} from '@react-navigation/native';
 import {createData, editData, deleteData} from './../db/operations';
-import {IconButton, withTheme, Button} from 'react-native-paper';
+import {IconButton, withTheme, Button, Snackbar} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import {Input} from 'react-native-elements';
 export const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get(
@@ -103,6 +103,7 @@ function PasswordForm(props) {
   const [showPassword, setShowPassword] = useState(true);
   const [passwordIcon, setPasswordIcon] = useState('eye');
   const RouteParams = route.params;
+  const [visible, setVisible] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -192,8 +193,16 @@ function PasswordForm(props) {
       });
   };
   return (
-    <Center>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Center>
+        <Snackbar
+          visible={visible}
+          onDismiss={() => {
+            setVisible(false);
+          }}
+          duration={3000}>
+          Password copied to clipboard.
+        </Snackbar>
         <View style={styles.container}>
           <UselessTextInput
             label="Name"
@@ -248,6 +257,7 @@ function PasswordForm(props) {
               dark={true}
               onPress={() => {
                 Clipboard.setString(password);
+                setVisible(true);
               }}
             />
           </View>
@@ -284,8 +294,8 @@ function PasswordForm(props) {
             )}
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </Center>
+      </Center>
+    </TouchableWithoutFeedback>
   );
 }
 
