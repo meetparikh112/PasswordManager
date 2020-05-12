@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1068541975113",
+    "firebase_url": "https://password-manager-ce2de.firebaseio.com",
+    "project_id": "password-manager-ce2de",
+    "storage_bucket": "password-manager-ce2de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068541975113:android:16a9264a2ba17188453d98",
+        "android_client_info": {
+          "package_name": "com.eeetm.passwordManager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068541975113-oorsaa5ekii7u9l14tidc4dj4q44ans7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARVS7LbTsaf4RFUfKBjgr73rF7nEYQOQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1068541975113-oorsaa5ekii7u9l14tidc4dj4q44ans7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
