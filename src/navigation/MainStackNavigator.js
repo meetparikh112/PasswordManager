@@ -5,8 +5,10 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import Home from '../screens/Home';
-// import Detail from '../screens/Detail';
+import Details from '../screens/Detail';
 import PasswordForm from '../screens/PasswordForm';
+// import PasswordForm from '../screens/test';
+
 import {
   Provider as PaperProvider,
   DefaultTheme,
@@ -72,6 +74,23 @@ function MainStackNavigator() {
           <Stack.Screen
             name="PasswordForm"
             component={PasswordForm}
+            options={{title: ''}}
+            screenOptions={{
+              gestureResponseDistance: 'horizontal',
+              gestureEnabled: true,
+              // headerStyle: {
+              //   backgroundColor: theme.colors.primary,
+              // },
+              // headerTitleStyle: {
+              //   fontWeight: 'bold',
+              // },
+              // headerTintColor: '#fff',
+              headerBackTitleVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Details"
+            component={Details}
             options={{title: ''}}
             screenOptions={{
               gestureResponseDistance: 'horizontal',

@@ -42,7 +42,7 @@ function Home(props) {
         <Ripple
           rippleColor={props.theme.colors.primary}
           onPress={() =>
-            navigation.navigate('PasswordForm', {
+            navigation.navigate('Details', {
               item: item.item,
               createFlag: 0,
             })
@@ -51,7 +51,7 @@ function Home(props) {
             // style={{zIndex: 999}}
             rippleColor={props.theme.colors.primary}
             onPress={() =>
-              navigation.navigate('PasswordForm', {
+              navigation.navigate('Details', {
                 item: item.item,
                 createFlag: 0,
               })
@@ -66,8 +66,8 @@ function Home(props) {
                 borderRadius: 10,
               }}>
               <Card.Content>
-                <Title>{item.item.name.substring(1, 30)}</Title>
-                <Paragraph>{item.item.website.substring(1, 85)}</Paragraph>
+                <Title>{item.item.name.substring(0, 30)}</Title>
+                <Paragraph>{item.item.website.substring(0, 85)}</Paragraph>
                 <Paragraph
                   style={{
                     textAlign: 'right',
@@ -118,7 +118,7 @@ function Home(props) {
         color={props.theme.colors.primary}
         backgroundColor={props.theme.colors.primary}
         onPress={() =>
-          navigation.navigate('PasswordForm', {item: 'No-Item', createFlag: 1})
+          navigation.navigate('Details', {item: 'No-Item', createFlag: 1})
         }
       />
     </View>

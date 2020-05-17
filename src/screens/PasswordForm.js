@@ -85,6 +85,11 @@ function UselessTextInput(props) {
           ? styles.inputStylePassword
           : styles.inputStyle
       }
+      autoFocus={false}
+      autoCapitalize="none"
+      keyboardAppearance="dark"
+      autoCorrect={false}
+      blurOnSubmit={false}
       inputContainerStyle={styles.inputContainerStyle}
       // width={SCREEN_WIDTH - 100}
     />
@@ -193,109 +198,106 @@ function PasswordForm(props) {
       });
   };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Center>
-        <Snackbar
-          visible={visible}
-          onDismiss={() => {
-            setVisible(false);
-          }}
-          duration={3000}>
-          Password copied to clipboard.
-        </Snackbar>
-        <View style={styles.container}>
+    // <TouchableWithoutFeedback>
+    <Center>
+      <Snackbar
+        visible={visible}
+        onDismiss={() => {
+          setVisible(false);
+        }}
+        duration={3000}>
+        Password copied to clipboard.
+      </Snackbar>
+      <View style={styles.container}>
+        <UselessTextInput
+          label="Name"
+          value={name}
+          onChangeText={name => setName(name)}
+          width={SCREEN_WIDTH - 100}
+        />
+        <UselessTextInput
+          label="Login"
+          value={login}
+          onChangeText={login => setLogin(login)}
+          width={SCREEN_WIDTH - 100}
+        />
+        <View style={styles.passwordViewContainer}>
           <UselessTextInput
-            label="Name"
-            value={name}
-            onChangeText={name => setName(name)}
+            label="Password"
+            value={password}
+            secureTextEntry={showPassword}
+            inputStyle={styles.inputStylePassword}
+            onChangeText={password => {
+              setPassword(password);
+              setShowPassword(showPassword);
+              setPasswordIcon(passwordIcon);
+            }}
             width={SCREEN_WIDTH - 100}
           />
-          <UselessTextInput
-            label="Login"
-            value={login}
-            onChangeText={login => setLogin(login)}
-            width={SCREEN_WIDTH - 100}
-          />
-          <View style={styles.passwordViewContainer}>
-            <UselessTextInput
-              label="Password"
-              value={password}
-              secureTextEntry={showPassword}
-              inputStyle={styles.inputStylePassword}
-              onChangeText={password => {
+          <IconButton
+            icon={passwordIcon}
+            style={styles.icon}
+            size={30}
+            color={props.theme.colors.primary}
+            mode="contained"
+            dark={true}
+            onPress={() => {
+              if (showPassword) {
+                setShowPassword(false);
+                setPasswordIcon('eye-off');
                 setPassword(password);
-                setShowPassword(showPassword);
-                setPasswordIcon(passwordIcon);
-              }}
-              width={SCREEN_WIDTH - 100}
-            />
-            <IconButton
-              icon={passwordIcon}
-              style={styles.icon}
-              size={30}
-              color={props.theme.colors.primary}
-              mode="contained"
-              dark={true}
-              onPress={() => {
-                if (showPassword) {
-                  setShowPassword(false);
-                  setPasswordIcon('eye-off');
-                  setPassword(password);
-                } else {
-                  setShowPassword(true);
-                  setPasswordIcon('eye');
-                  setPassword(password);
-                }
-              }}
-            />
-            <IconButton
-              icon="content-copy"
-              style={styles.iconCopy}
-              size={30}
-              color={props.theme.colors.primary}
-              mode="contained"
-              dark={true}
-              onPress={() => {
-                Clipboard.setString(password);
-                setVisible(true);
-              }}
-            />
-          </View>
-
-          <UselessTextInput
-            label="Website"
-            value={website}
-            onChangeText={website => setWebsite(website)}
-            width={SCREEN_WIDTH - 100}
+              } else {
+                setShowPassword(true);
+                setPasswordIcon('eye');
+                setPassword(password);
+              }
+            }}
           />
-          <UselessTextInput
-            label="Notes"
-            value={notes}
-            onChangeText={notes => setNotes(notes)}
-            width={SCREEN_WIDTH - 100}
+          <IconButton
+            icon="content-copy"
+            style={styles.iconCopy}
+            size={30}
+            color={props.theme.colors.primary}
+            mode="contained"
+            dark={true}
+            onPress={() => {
+              Clipboard.setString(password);
+              setVisible(true);
+            }}
           />
-
-          <View style={styles.bottomButtons}>
-            {isCreate ? (
-              <Button
-                mode="contained"
-                dark={true}
-                color={props.theme.colors.primary}
-                onPress={() => createPassword()}>
-                Add
-              </Button>
-            ) : (
-              <Button
-                mode="contained"
-                dark={true}
-                onPress={() => editPassword()}>
-                Edit
-              </Button>
-            )}
-          </View>
         </View>
-      </Center>
-    </TouchableWithoutFeedback>
+
+        <UselessTextInput
+          label="Website"
+          value={website}
+          onChangeText={website => setWebsite(website)}
+          width={SCREEN_WIDTH - 100}
+        />
+        <UselessTextInput
+          label="Notes"
+          value={notes}
+          onChangeText={notes => setNotes(notes)}
+          width={SCREEN_WIDTH - 100}
+        />
+
+        <View style={styles.bottomButtons}>
+          {isCreate ? (
+            <Button
+              mode="contained"
+              dark={true}
+              color={props.theme.colors.primary}
+              onPress={() => createPassword()}>
+              Add
+            </Button>
+          ) : (
+            <Button mode="contained" dark={true} onPress={() => editPassword()}>
+              Edit
+            </Button>
+          )}
+        </View>
+      </View>
+    </Center>
+    // </TouchableWithoutFeedback>
   );
 }
 
