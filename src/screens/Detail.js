@@ -198,7 +198,6 @@ function Signup(props) {
             setFieldValue,
           }) => (
             <>
-              {console.log('values', values)}
               <FormInput
                 name="name"
                 label="Name"
@@ -306,7 +305,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 50,
+    // marginTop: 50,
   },
   logoContainer: {
     marginBottom: 15,

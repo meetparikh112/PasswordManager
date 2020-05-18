@@ -107,64 +107,64 @@ function PasswordForm(props) {
   const [isCreate, setIsCreate] = useState(1);
   const [showPassword, setShowPassword] = useState(true);
   const [passwordIcon, setPasswordIcon] = useState('eye');
-  const RouteParams = route.params;
+  // const RouteParams = route.params;
   const [visible, setVisible] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
-      if (!RouteParams.createFlag && RouteParams.item != 'No-Item') {
-        //Edit PAssword
-        setId(RouteParams.item.id);
-        setName(RouteParams.item.name);
-        setLogin(RouteParams.item.login);
-        setPassword(RouteParams.item.password);
-        setWebsite(RouteParams.item.website);
-        setNotes(RouteParams.item.notes);
-        setIsCreate(0);
+      // if (!RouteParams.createFlag && RouteParams.item != 'No-Item') {
+      //   //Edit PAssword
+      //   setId(RouteParams.item.id);
+      //   setName(RouteParams.item.name);
+      //   setLogin(RouteParams.item.login);
+      //   setPassword(RouteParams.item.password);
+      //   setWebsite(RouteParams.item.website);
+      //   setNotes(RouteParams.item.notes);
+      //   setIsCreate(0);
 
-        props.navigation.setOptions({
-          title: 'Edit Password',
-          headerStyle: {
-            backgroundColor: props.theme.colors.primary,
-          },
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerTintColor: '#fff',
-          headerRight: () => (
-            <IconButton
-              icon="delete"
-              size={30}
-              color="#fff"
-              mode="contained"
-              dark={true}
-              onPress={() =>
-                deleteData(RouteParams.item.id)
-                  .then(data => {
-                    navigation.navigate('Home');
-                  })
-                  .catch(error => {
-                    console.log('DeleteData ERROR', error);
-                  })
-              }
-            />
-          ),
-        });
-      } else {
-        //Create PAssword
-        props.navigation.setOptions({
-          title: 'Add Password',
-          headerStyle: {
-            backgroundColor: props.theme.colors.primary,
-          },
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerTintColor: '#fff',
-          headerRight: () => <></>,
-        });
-      }
+      //   props.navigation.setOptions({
+      //     title: 'Edit Password',
+      //     headerStyle: {
+      //       backgroundColor: props.theme.colors.primary,
+      //     },
+      //     headerTitleStyle: {
+      //       fontWeight: 'bold',
+      //     },
+      //     headerTintColor: '#fff',
+      //     headerRight: () => (
+      //       <IconButton
+      //         icon="delete"
+      //         size={30}
+      //         color="#fff"
+      //         mode="contained"
+      //         dark={true}
+      //         onPress={() =>
+      //           deleteData(RouteParams.item.id)
+      //             .then(data => {
+      //               navigation.navigate('Home');
+      //             })
+      //             .catch(error => {
+      //               console.log('DeleteData ERROR', error);
+      //             })
+      //         }
+      //       />
+      //     ),
+      //   });
+      // } else {
+      //Create PAssword
+      props.navigation.setOptions({
+        title: 'Add Password',
+        headerStyle: {
+          backgroundColor: props.theme.colors.primary,
+        },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerTintColor: '#fff',
+        headerRight: () => <></>,
+      });
+      // }
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions

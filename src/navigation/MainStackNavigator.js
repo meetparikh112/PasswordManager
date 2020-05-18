@@ -7,7 +7,7 @@ import {
 import Home from '../screens/Home';
 import Details from '../screens/Detail';
 import PasswordForm from '../screens/PasswordForm';
-// import PasswordForm from '../screens/test';
+// import SignIn from '../screens/test';
 
 import {
   Provider as PaperProvider,
@@ -105,6 +105,23 @@ function MainStackNavigator() {
               headerBackTitleVisible: false,
             }}
           />
+          {/* <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{title: 'SignIn'}}
+            screenOptions={{
+              gestureResponseDistance: 'horizontal',
+              gestureEnabled: true,
+              // headerStyle: {
+              //   backgroundColor: theme.colors.primary,
+              // },
+              // headerTitleStyle: {
+              //   fontWeight: 'bold',
+              // },
+              // headerTintColor: '#fff',
+              headerBackTitleVisible: false,
+            }}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
