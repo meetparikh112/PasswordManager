@@ -46,7 +46,7 @@ export const FormInput = ({
       placeholder={placeholder}
       //  style={{backgroundColor: 'red'}}
       inputContainerStyle={{
-        borderBottomColor: 'tomato',
+        borderBottomColor: '#FFCCBC',
         //  borderBottomWidth: 0,
         // backgroundColor: 'red',
       }}

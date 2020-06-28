@@ -42,7 +42,7 @@ function Home(props) {
         <Ripple
           rippleColor={props.theme.colors.primary}
           onPress={() =>
-            navigation.navigate('Details', {
+            navigation.navigate('HelloForm', {
               item: item.item,
               createFlag: 0,
             })
@@ -51,7 +51,7 @@ function Home(props) {
             // style={{zIndex: 999}}
             rippleColor={props.theme.colors.primary}
             onPress={() =>
-              navigation.navigate('Details', {
+              navigation.navigate('HelloForm', {
                 item: item.item,
                 createFlag: 0,
               })
@@ -74,11 +74,7 @@ function Home(props) {
                     alignSelf: 'stretch',
                     color: 'gray',
                   }}>
-                  Last Update:{' '}
-                  {moment
-                    .duration(moment.utc().diff(item.item.lastUpdatedDate))
-                    .humanize()}{' '}
-                  ago
+                  No of Accounts: {item.item.accountsNew.length}
                 </Paragraph>
               </Card.Content>
             </Card>
@@ -118,7 +114,7 @@ function Home(props) {
         color={props.theme.colors.primary}
         backgroundColor={props.theme.colors.primary}
         onPress={() =>
-          navigation.navigate('Details', {item: 'No-Item', createFlag: 1})
+          navigation.navigate('HelloForm', {item: 'No-Item', createFlag: 1})
         }
       />
     </View>

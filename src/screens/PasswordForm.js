@@ -1,100 +1,48 @@
+//https://codesandbox.io/s/react-dynamic-form-fields-3fjbd?from-embed=&file=/src/index.js
 import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
   Text,
   Keyboard,
-  TouchableWithoutFeedback,
 } from 'react-native';
+import {Button, CheckBox} from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {FormInput, FormButton, ErrorMessage} from './Center';
+
 import Clipboard from '@react-native-community/clipboard';
 import {useFocusEffect} from '@react-navigation/native';
 import {createData, editData, deleteData} from './../db/operations';
-import {IconButton, withTheme, Button, Snackbar} from 'react-native-paper';
+import {IconButton, withTheme, Snackbar} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import {Input} from 'react-native-elements';
 export const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get(
   'window',
 );
-import {Center} from './Center';
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // margin: 10,
-    alignItems: 'center',
-    // backgroundColor: 'red', //
-  },
-  text: {
-    color: '#101010',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  containerStyle: {
-    backgroundColor: '#fff',
-    marginBottom: 7,
-    margin: 3,
-  },
-  labelStyle: {
-    color: '#101010',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  inputStyle: {
-    flex: 1,
-    // paddingRight: 45, //for bug with icon
-  },
-  inputStylePassword: {
-    flex: 1,
-    paddingRight: 85, //for bug with icon
-  },
-  inputContainerStyle: {
-    borderBottomColor: 'tomato',
-    margin: 3,
-    width: SCREEN_WIDTH - 50,
-  },
-  passwordViewContainer: {},
-  icon: {
-    position: 'absolute',
-    top: 33,
-    right: 52,
-  },
-  iconCopy: {
-    position: 'absolute',
-    top: 33,
-    right: 8,
-  },
-  bottomButtons: {
-    margin: 10,
-  },
-  Button: {
-    width: '80%',
-  },
-});
 
-function UselessTextInput(props) {
-  // console.log(props);
-  // console.log(props.label);
-
-  return (
-    <Input
-      {...props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-      containerStyle={styles.containerStyle}
-      labelStyle={styles.labelStyle}
-      inputStyle={
-        props.label == 'Password'
-          ? styles.inputStylePassword
-          : styles.inputStyle
-      }
-      autoFocus={false}
-      autoCapitalize="none"
-      keyboardAppearance="dark"
-      autoCorrect={false}
-      blurOnSubmit={false}
-      inputContainerStyle={styles.inputContainerStyle}
-      // width={SCREEN_WIDTH - 100}
-    />
-  );
-}
+// const validationSchema = Yup.object().shape({
+//   name: Yup.string()
+//     .label('Name')
+//     .required()
+//     .min(2, 'Must have at least 2 characters'),
+//   email: Yup.string()
+//     .label('Email')
+//     .email('Enter a valid email')
+//     .required('Please enter a registered email'),
+//   password: Yup.string()
+//     .label('Password')
+//     .required()
+//     .min(6, 'Password should be at least 6 characters '),
+//   confirmPassword: Yup.string()
+//     .oneOf([Yup.ref('password')], 'Confirm Password must matched Password')
+//     .required('Confirm Password is required'),
+//   check: Yup.boolean().oneOf([true], 'Please check the agreement'),
+// });
 
 function PasswordForm(props) {
   const {route, navigation} = props;
@@ -107,64 +55,65 @@ function PasswordForm(props) {
   const [isCreate, setIsCreate] = useState(1);
   const [showPassword, setShowPassword] = useState(true);
   const [passwordIcon, setPasswordIcon] = useState('eye');
-  // const RouteParams = route.params;
+  const RouteParams = route.params;
   const [visible, setVisible] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
-      // if (!RouteParams.createFlag && RouteParams.item != 'No-Item') {
-      //   //Edit PAssword
-      //   setId(RouteParams.item.id);
-      //   setName(RouteParams.item.name);
-      //   setLogin(RouteParams.item.login);
-      //   setPassword(RouteParams.item.password);
-      //   setWebsite(RouteParams.item.website);
-      //   setNotes(RouteParams.item.notes);
-      //   setIsCreate(0);
 
-      //   props.navigation.setOptions({
-      //     title: 'Edit Password',
-      //     headerStyle: {
-      //       backgroundColor: props.theme.colors.primary,
-      //     },
-      //     headerTitleStyle: {
-      //       fontWeight: 'bold',
-      //     },
-      //     headerTintColor: '#fff',
-      //     headerRight: () => (
-      //       <IconButton
-      //         icon="delete"
-      //         size={30}
-      //         color="#fff"
-      //         mode="contained"
-      //         dark={true}
-      //         onPress={() =>
-      //           deleteData(RouteParams.item.id)
-      //             .then(data => {
-      //               navigation.navigate('Home');
-      //             })
-      //             .catch(error => {
-      //               console.log('DeleteData ERROR', error);
-      //             })
-      //         }
-      //       />
-      //     ),
-      //   });
-      // } else {
-      //Create PAssword
-      props.navigation.setOptions({
-        title: 'Add Password',
-        headerStyle: {
-          backgroundColor: props.theme.colors.primary,
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerTintColor: '#fff',
-        headerRight: () => <></>,
-      });
-      // }
+      if (!RouteParams.createFlag && RouteParams.item != 'No-Item') {
+        //Edit PAssword
+        setId(RouteParams.item.id);
+        setName(RouteParams.item.name);
+        setLogin(RouteParams.item.login);
+        setPassword(RouteParams.item.password);
+        setWebsite(RouteParams.item.website);
+        setNotes(RouteParams.item.notes);
+        setIsCreate(0);
+
+        props.navigation.setOptions({
+          title: 'Edit Password',
+          headerStyle: {
+            backgroundColor: 'tomato',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTintColor: '#fff',
+          headerRight: () => (
+            <IconButton
+              icon="delete"
+              size={30}
+              color="#fff"
+              mode="contained"
+              dark={true}
+              onPress={() => {
+                deleteData(RouteParams.item.id)
+                  .then(data => {
+                    navigation.goBack();
+                  })
+                  .catch(error => {
+                    console.log('DeleteData ERROR', error);
+                  });
+              }}
+            />
+          ),
+        });
+      } else {
+        //Create PAssword
+        props.navigation.setOptions({
+          title: 'Add Password',
+          headerStyle: {
+            backgroundColor: 'tomato',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTintColor: '#fff',
+          headerRight: () => <></>,
+        });
+      }
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
@@ -178,127 +127,197 @@ function PasswordForm(props) {
     }, []),
   );
 
-  const createPassword = () => {
-    createData(name, login, password, website, notes)
-      .then(data => {
-        navigation.navigate('Home');
-      })
-      .catch(error => {
-        console.log('createData ERROR', error);
-      });
-  };
-
-  const editPassword = () => {
-    editData(id, name, login, password, website, notes)
-      .then(data => {
-        navigation.navigate('Home');
-      })
-      .catch(error => {
-        console.log('editPassword ERROR', error);
-      });
+  const handleOnSignup = (values, actions) => {
+    if (isCreate) {
+      createData(
+        values.name,
+        values.login,
+        values.password,
+        values.website,
+        values.notes,
+      )
+        .then(data => {
+          navigation.navigate('Home');
+          actions.setSubmitting(false);
+        })
+        .catch(error => {
+          console.log('createData ERROR', error);
+        });
+    } else {
+      editData(
+        id,
+        values.name,
+        values.login,
+        values.password,
+        values.website,
+        values.notes,
+      )
+        .then(data => {
+          navigation.navigate('Home');
+          actions.setSubmitting(false);
+        })
+        .catch(error => {
+          console.log('editPassword ERROR', error);
+        });
+    }
   };
   return (
-    // <TouchableWithoutFeedback>
-    <Center>
-      <Snackbar
-        visible={visible}
-        onDismiss={() => {
-          setVisible(false);
-        }}
-        duration={3000}>
-        Password copied to clipboard.
-      </Snackbar>
-      <View style={styles.container}>
-        <UselessTextInput
-          label="Name"
-          value={name}
-          onChangeText={name => setName(name)}
-          width={SCREEN_WIDTH - 100}
-        />
-        <UselessTextInput
-          label="Login"
-          value={login}
-          onChangeText={login => setLogin(login)}
-          width={SCREEN_WIDTH - 100}
-        />
-        <View style={styles.passwordViewContainer}>
-          <UselessTextInput
-            label="Password"
-            value={password}
-            secureTextEntry={showPassword}
-            inputStyle={styles.inputStylePassword}
-            onChangeText={password => {
-              setPassword(password);
-              setShowPassword(showPassword);
-              setPasswordIcon(passwordIcon);
-            }}
-            width={SCREEN_WIDTH - 100}
-          />
-          <IconButton
-            icon={passwordIcon}
-            style={styles.icon}
-            size={30}
-            color={props.theme.colors.primary}
-            mode="contained"
-            dark={true}
-            onPress={() => {
-              if (showPassword) {
-                setShowPassword(false);
-                setPasswordIcon('eye-off');
-                setPassword(password);
-              } else {
-                setShowPassword(true);
-                setPasswordIcon('eye');
-                setPassword(password);
-              }
-            }}
-          />
-          <IconButton
-            icon="content-copy"
-            style={styles.iconCopy}
-            size={30}
-            color={props.theme.colors.primary}
-            mode="contained"
-            dark={true}
-            onPress={() => {
-              Clipboard.setString(password);
-              setVisible(true);
-            }}
-          />
-        </View>
+    <KeyboardAvoidingView
+      style={styles.container}
+      onPress={Keyboard.dismiss}
+      // enabled behavior="padding"
+    >
+      <ScrollView>
+        <Formik
+          initialValues={{
+            name: name,
+            login: login,
+            password: password,
+            website: website,
+            notes: notes,
+          }}
+          enableReinitialize={true}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              // alert(JSON.stringify(values, null, 2));
+              handleOnSignup(values, actions);
+              actions.setSubmitting(false);
+            }, 500);
+          }}
+          // validationSchema={validationSchema}
+        >
+          {({
+            handleChange,
+            values,
+            handleSubmit,
+            errors,
+            isValid,
+            touched,
+            handleBlur,
+            isSubmitting,
+            setFieldValue,
+          }) => (
+            <>
+              <FormInput
+                name="name"
+                label="Name"
+                value={values.name}
+                onChangeText={handleChange('name')}
+                placeholder="Enter your full name"
+                iconName="md-person"
+                iconColor="#2C384A"
+                onBlur={handleBlur('name')}
+              />
+              <FormInput
+                name="login"
+                label="Login"
+                value={values.login}
+                onChangeText={handleChange('login')}
+                placeholder="Enter login"
+                autoCapitalize="none"
+                iconName="ios-mail"
+                iconColor="#2C384A"
+                onBlur={handleBlur('login')}
+              />
 
-        <UselessTextInput
-          label="Website"
-          value={website}
-          onChangeText={website => setWebsite(website)}
-          width={SCREEN_WIDTH - 100}
-        />
-        <UselessTextInput
-          label="Notes"
-          value={notes}
-          onChangeText={notes => setNotes(notes)}
-          width={SCREEN_WIDTH - 100}
-        />
-
-        <View style={styles.bottomButtons}>
-          {isCreate ? (
-            <Button
-              mode="contained"
-              dark={true}
-              color={props.theme.colors.primary}
-              onPress={() => createPassword()}>
-              Add
-            </Button>
-          ) : (
-            <Button mode="contained" dark={true} onPress={() => editPassword()}>
-              Edit
-            </Button>
+              <View style={styles.passwordViewContainer}>
+                <FormInput
+                  label="Password"
+                  value={values.password}
+                  secureTextEntry={showPassword}
+                  inputStyle={{flex: 1, paddingRight: 85}}
+                  onChangeText={handleChange('password')}
+                  // width={SCREEN_WIDTH - 100}
+                />
+                <IconButton
+                  icon={passwordIcon}
+                  style={{position: 'absolute', top: 33, right: 52}}
+                  size={30}
+                  color="tomato"
+                  mode="contained"
+                  dark={true}
+                  onPress={() => {
+                    if (showPassword) {
+                      setShowPassword(false);
+                      setPasswordIcon('eye-off');
+                      setPassword(password);
+                    } else {
+                      setShowPassword(true);
+                      setPasswordIcon('eye');
+                      setPassword(password);
+                    }
+                  }}
+                />
+                <IconButton
+                  icon="content-copy"
+                  style={{position: 'absolute', top: 33, right: 8}}
+                  size={30}
+                  color="tomato"
+                  mode="contained"
+                  dark={true}
+                  onPress={() => {
+                    Clipboard.setString(values.password);
+                    setVisible(true);
+                  }}
+                />
+              </View>
+              <FormInput
+                name="website"
+                label="Website"
+                value={values.website}
+                onChangeText={handleChange('website')}
+                placeholder="Enter website"
+                autoCapitalize="none"
+                iconName="ios-mail"
+                iconColor="#2C384A"
+                onBlur={handleBlur('website')}
+              />
+              <FormInput
+                name="notes"
+                label="Notes"
+                value={values.notes}
+                onChangeText={handleChange('notes')}
+                placeholder="Enter notes"
+                autoCapitalize="none"
+                iconName="ios-mail"
+                iconColor="#2C384A"
+                onBlur={handleBlur('notes')}
+              />
+              <View style={styles.buttonContainer}>
+                <FormButton
+                  buttonType="outline"
+                  onPress={handleSubmit}
+                  title={isCreate ? 'Add' : 'Update'}
+                  buttonColor="#F57C00"
+                  disabled={!isValid || isSubmitting}
+                  loading={isSubmitting}
+                />
+              </View>
+            </>
           )}
-        </View>
-      </View>
-    </Center>
-    // </TouchableWithoutFeedback>
+        </Formik>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
-export default withTheme(PasswordForm);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // marginTop: 50,
+  },
+  logoContainer: {
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    margin: 25,
+  },
+  checkBoxContainer: {
+    backgroundColor: '#fff',
+    borderColor: '#fff',
+  },
+});
+
+export default PasswordForm;

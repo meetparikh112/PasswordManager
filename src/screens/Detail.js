@@ -58,6 +58,7 @@ function Signup(props) {
   const RouteParams = route.params;
   const [visible, setVisible] = useState(false);
 
+
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused

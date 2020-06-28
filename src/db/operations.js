@@ -9,13 +9,27 @@ export const PasswordSchema = {
   properties: {
     id: 'int',
     name: 'string',
+    website: 'string',
+    accounts: {type: 'list', objectType: 'Account'},
+  },
+  schemaVersion: 9,
+  deleteRealmIfMigrationNeeded: 1,
+  encryptionKey: key,
+};
+
+export const Accountchema = {
+  name: 'Account',
+  primaryKey: 'id',
+  properties: {
+    id: 'int',
+    passwordId: 'int',
+    account: 'string',
     login: 'string',
     password: 'string',
-    website: 'string',
-    notes: 'string',
+    note: 'string',
     lastUpdatedDate: 'int',
   },
-  schemaVersion: 5,
+  schemaVersion: 9,
   deleteRealmIfMigrationNeeded: 1,
   encryptionKey: key,
 };
@@ -23,14 +37,20 @@ export const PasswordSchema = {
 export const getAllData = () => {
   return new Promise(function(resolve, reject) {
     Realm.open({
-      schema: [PasswordSchema],
+      schema: [PasswordSchema, Accountchema],
       encryptionKey: key,
     })
       .then(realm => {
         // pupulate with a secure key
         const allPasswords = realm.objects('Passwords').sorted('name');
-        // console.log('allPasswords', allPasswords);
-        resolve(Array.from(allPasswords));
+        let pass = Array.from(allPasswords);
+        pass.map(p => {
+          p.accountsNew = Array.from(p.accounts);
+          delete p.accounts;
+        });
+        // realm.close();
+        console.log(JSON.parse(JSON.stringify(pass)));
+        resolve(JSON.parse(JSON.stringify(pass)));
       })
       .catch(error => {
         console.log(error);
@@ -46,20 +66,11 @@ export const createData = (name, login, password, website, notes) => {
       encryptionKey: key,
     })
       .then(realm => {
-        realm.write(() => {
-          const data = realm.create('Passwords', {
-            id: moment.utc().valueOf(),
-            name: name,
-            login: login,
-            password: password,
-            website: website,
-            notes: notes,
-            lastUpdatedDate: moment.utc().valueOf(),
-          });
-          console.log('CREATE data', data);
-        });
+        // pupulate with a secure key
+        const allPasswords = realm.objects('Passwords').sorted('name');
+        // console.log('allPasswords', allPasswords);
         realm.close();
-        resolve('DONE');
+        resolve(Array.from(allPasswords));
       })
       .catch(error => {
         console.log(error);
@@ -68,15 +79,121 @@ export const createData = (name, login, password, website, notes) => {
   });
 };
 
+export const createDataNew = item => {
+  return new Promise((resolve, reject) => {
+    Realm.open({
+      schema: [PasswordSchema, Accountchema],
+      encryptionKey: key,
+    })
+      .then(realm => {
+        realm.write(() => {
+          let data = realm.create(
+            'Passwords',
+            {
+              id: moment.utc().valueOf(),
+              name: item.name,
+              website: item.webAddress,
+            },
+            true,
+          );
+          // console.log('data 1', data);
+
+          // if (item.accounts.length > 0) {
+          // console.log('12');
+          item.accounts.map(itm => {
+            // console.log('122222');
+            // let account = realm.create(
+            //   'Account',
+            //   {
+            //     id: moment.utc().valueOf(),
+            //     passwordId: data.id,
+            //     name: itm.account,
+            //     login: itm.login,
+            //     password: itm.password,
+            //     note: itm.note,
+            //     lastUpdatedDate: moment.utc().valueOf(),
+            //   },
+            //   true,
+            // );
+            // console.log(account);
+            // console.log('data.accounts', data.accounts);
+            let accou = {
+              id: moment.utc().valueOf(),
+              passwordId: data.id,
+              account: itm.account,
+              login: itm.login,
+              password: itm.password,
+              note: itm.note,
+              lastUpdatedDate: moment.utc().valueOf(),
+            };
+            data.accounts.push(accou);
+            console.log('data ---asfas dk', data);
+          });
+          // realm.close();
+          resolve('DONE');
+          // }
+          console.log('CREATE createDataNew data', data);
+        });
+        // resolve('DONE');
+      })
+      .catch(error => {
+        console.log('error', error);
+        reject(error);
+      });
+  });
+};
+
+export const EditDataNew = (item, id) => {
+  return new Promise((resolve, reject) => {
+    Realm.open({
+      schema: [PasswordSchema, Accountchema],
+      encryptionKey: key,
+    })
+      .then(realm => {
+        console.log('itemitemitemitemitem', item);
+        console.log('itemitemitemitemitem', id);
+        realm.write(() => {
+          const passwordEdit = realm
+            .objects('Passwords')
+            .filtered('id = ' + id);
+          console.log('itemitemitemitemitem 3', passwordEdit[0]);
+          passwordEdit[0].name = item.name;
+          passwordEdit[0].website = item.webAddress;
+          passwordEdit[0].accounts = [];
+
+          item.accounts.map(itm => {
+            let accou = {
+              id: moment.utc().valueOf(),
+              passwordId: id,
+              account: itm.account,
+              login: itm.login,
+              password: itm.password,
+              note: itm.note,
+              lastUpdatedDate: moment.utc().valueOf(),
+            };
+            passwordEdit[0].accounts.push(accou);
+            // console.log('data ---asfas dk', data);
+          });
+        });
+        resolve('DONE');
+      })
+      .catch(error => {
+        console.log('error', error);
+        reject(error);
+      });
+  });
+};
+
 export const deleteAllData = () => {
   return new Promise((resolve, reject) => {
     Realm.open({
-      schema: [PasswordSchema],
+      schema: [PasswordSchema, Accountchema],
       encryptionKey: key,
     })
       .then(realm => {
         realm.write(() => {
           realm.deleteAll();
+          realm.close();
           resolve('DONE');
         });
       })
@@ -88,22 +205,31 @@ export const deleteAllData = () => {
 };
 
 export const deleteData = id => {
+  console.log('1o11919=====');
   return new Promise((resolve, reject) => {
+    console.log('1o11919=1====');
+
     Realm.open({
-      schema: [PasswordSchema],
+      schema: [PasswordSchema, Accountchema],
       encryptionKey: key,
     })
       .then(realm => {
+        console.log('1o11919=13====');
+
         realm.write(() => {
+          console.log('1o11919=133====');
+
           const passwordSelect = realm
             .objects('Passwords')
             .filtered('id = ' + id);
+          console.log('passwordSelectpasswordSelect', passwordSelect);
           realm.delete(passwordSelect);
-          resolve();
+          // realm.close();
+          resolve('DONE');
         });
       })
       .catch(error => {
-        console.log(error);
+        console.log('error=====', error);
         reject(error);
       });
   });
