@@ -8,8 +8,14 @@ import {
   Platform,
   TouchableWithoutFeedback,
   I18nManager,
+  Text,
 } from 'react-native';
+import {Button, Input} from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import PropTypes from 'prop-types';
+
+///////////////////////////////////////CENTER///////////////////////////////
 export const Center = ({children}) => {
   return (
     // <ScrollView>
@@ -17,6 +23,57 @@ export const Center = ({children}) => {
     // </ScrollView>
   );
 };
+
+//////////////////////////////////////FORM?///////////////////////////////////////
+
+export const FormInput = ({
+  iconName,
+  iconColor,
+  returnKeyType,
+  keyboardType,
+  name,
+  placeholder,
+  ...rest
+}) => (
+  <View style={styles.inputContainer}>
+    <Input
+      {...rest}
+      // label={name}
+      // leftIcon={<Ionicons name={iconName} size={28} color={iconColor} />}
+      // leftIconContainerStyle={styles.iconStyle}
+      placeholderTextColor="grey"
+      name={name}
+      placeholder={placeholder}
+      //  style={{backgroundColor: 'red'}}
+      inputContainerStyle={{
+        borderBottomColor: '#FFCCBC',
+        //  borderBottomWidth: 0,
+        // backgroundColor: 'red',
+      }}
+      // errorMessage="ENTER A VALID ERROR HERE"
+      renderErrorMessage={false}
+    />
+  </View>
+);
+
+export const FormButton = ({title, buttonType, buttonColor, ...rest}) => (
+  <Button
+    {...rest}
+    type={buttonType}
+    title={title}
+    buttonStyle={{borderColor: buttonColor, borderRadius: 20}}
+    titleStyle={{color: buttonColor}}
+  />
+);
+
+export const ErrorMessage = ({errorValue}) => (
+  <View style={styles.containerError}>
+    <Text style={styles.errorText}>{errorValue}</Text>
+  </View>
+);
+
+///////////////////////////////////////////////////////////RIPPLE//////////////////////////////
+
 export const radius = 10;
 
 const styles = StyleSheet.create({
@@ -39,6 +96,20 @@ const styles = StyleSheet.create({
     borderRadius: radius,
     overflow: 'hidden',
     position: 'absolute',
+  },
+  //////////////////////////
+  inputContainer: {
+    margin: 15,
+    // backgroundColor: 'yellow',
+  },
+  iconStyle: {
+    marginRight: 10,
+  },
+  containerError: {
+    marginLeft: 25,
+  },
+  errorText: {
+    color: 'red',
   },
 });
 

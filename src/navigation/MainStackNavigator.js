@@ -4,9 +4,6 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import Home from '../screens/Home';
-// import Detail from '../screens/Detail';
-import PasswordForm from '../screens/PasswordForm';
 import {
   Provider as PaperProvider,
   DefaultTheme,
@@ -14,6 +11,9 @@ import {
 } from 'react-native-paper';
 import {StatusBar} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+
+import Home from '../screens/Home';
+import CreateEditForm from '../screens/CreateEditForm';
 
 const theme = {
   ...DefaultTheme,
@@ -70,19 +70,12 @@ function MainStackNavigator() {
             // }}
           />
           <Stack.Screen
-            name="PasswordForm"
-            component={PasswordForm}
-            options={{title: ''}}
+            name="HelloForm"
+            component={CreateEditForm}
+            options={{title: 'Create/EditForm'}}
             screenOptions={{
               gestureResponseDistance: 'horizontal',
               gestureEnabled: true,
-              // headerStyle: {
-              //   backgroundColor: theme.colors.primary,
-              // },
-              // headerTitleStyle: {
-              //   fontWeight: 'bold',
-              // },
-              // headerTintColor: '#fff',
               headerBackTitleVisible: false,
             }}
           />
