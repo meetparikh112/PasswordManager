@@ -48,10 +48,6 @@ to Create apk you have to setup keystore. [Reference!](https://www.instamobile.i
 cd android
 gradlew assembleRelease
 ```
-or
-```
-yarn android
-```
 
 
 ## License
