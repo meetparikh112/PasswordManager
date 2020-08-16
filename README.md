@@ -5,6 +5,21 @@ Password Manager for android device with offline Realm database.
 ## Description
 Its simple template, anyone can add their desire encryption and store the user's multiple Account's password. It has common Fromlik and yup Form controls for input validation. 
 
+## Screens
+<p float="left">
+
+<img src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" alt="List Screen" width="200" height="400" />
+
+
+<img src="https://github.com/meetparikh112/PasswordManager/blob/master/Create_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/Create_Screen.jpeg" alt="Create Screen" width="200" height="400" />
+
+
+<img src="https://github.com/meetparikh112/PasswordManager/blob/master/Edit_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/Edit_Screen.jpeg" alt="Edit Screen" width="200" height="400" />
+
+
+<img src="https://github.com/meetparikh112/PasswordManager/blob/master/Splash_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/Splash_Screen.jpeg" alt="Splash Screen" width="200" height="400" />
+</p>
+
 ### Dependencies
 
 * Android Developemnt Environment
