@@ -8,7 +8,7 @@ Its simple template, anyone can add their desire encryption and store the user's
 ## Screens
 <p float="left">
 
-<img src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" alt="List Screen" width="200" height="400" />[!Image](https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg)
+<img src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg" alt="List Screen" width="200" height="400" />[!Image](https://github.com/meetparikh112/PasswordManager/blob/master/List_Screen.jpeg")
 
 
 <img src="https://github.com/meetparikh112/PasswordManager/blob/master/Create_Screen.jpeg" data-canonical-src="https://github.com/meetparikh112/PasswordManager/blob/master/Create_Screen.jpeg" alt="Create Screen" width="200" height="400" />
